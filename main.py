@@ -18,7 +18,10 @@ SERVERS = [
 async def proxy(path: str):
     async def server_request(server):
         name, url = server
-        return name, requests.get(f"{url}/{path}")
+        try:
+            return name, requests.get(f"{url}/{path}")
+        except Exception:
+            return name, None
 
     tasks = [server_request(server) for server in SERVERS]
 
